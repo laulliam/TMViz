@@ -5,6 +5,12 @@ import App from './App'
 import router from './router'
 import store from './vuex/store'
 
+// import ViewUI
+import ViewUI from 'view-design';
+import 'view-design/dist/styles/iview.css';
+
+Vue.use(ViewUI);
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -1,0 +1,72 @@
+<template>
+  <div id="container">
+    <!-- <AppHeader></AppHeader> -->
+    <Header class="header"></Header>
+
+    <Content class="content">
+        <AppControler></AppControler>
+        <AppCompound></AppCompound>
+        <AppStationPD></AppStationPD>
+    </Content>
+
+    <Footer class="layout-footer-center footer">2019-2021 &copy; TMViz</Footer>
+
+  </div>
+</template>
+
+<script>
+import AppHeader from "./AppModules/AppHeader";
+import AppControler from "./AppModules/AppControler";
+import AppStationPD from "./AppModules/AppStationPD";
+import AppMap from "./AppModules/AppMap";
+import AppCompound from "./AppModules/AppCompound";
+import AppRouteStatus from "./AppModules/AppRouteStatus";
+import AppRouteStablity from "./AppModules/AppRouteStablity";
+
+export default {
+  name: "AppLayout",
+  data() {
+    return {};
+  },
+  components: {
+    // AppHeader,
+    AppControler,
+    AppCompound,
+    AppStationPD,
+  },
+  mounted() {},
+  methods: {},
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+#container {
+  position: relative;
+  /* background-color: #ff0; */
+  width: 100%;
+  height: 100%;
+}
+
+.header{
+    /* position: fixed; */
+    /* float: left; */
+    height: 5%
+}
+
+.content{
+    /* position: inherit; */
+    margin: 0;
+    height: 92%;
+    /* top: 0%; */
+}
+
+.footer{
+    height: 3%;
+    /* background-color: rgb(119, 27, 27); */
+    /* bottom: 0; */
+    /* margin: 0;  */
+    padding: 0;
+    line-height: 35px; 
+}
+</style>
