@@ -15,13 +15,9 @@
 </template>
 
 <script>
-import AppHeader from "./AppModules/AppHeader";
 import AppControler from "./AppModules/AppControler";
 import AppStationPD from "./AppModules/AppStationPD";
-import AppMap from "./AppModules/AppMap";
 import AppCompound from "./AppModules/AppCompound";
-import AppRouteStatus from "./AppModules/AppRouteStatus";
-import AppRouteStablity from "./AppModules/AppRouteStablity";
 
 export default {
   name: "AppLayout",
@@ -29,7 +25,6 @@ export default {
     return {};
   },
   components: {
-    // AppHeader,
     AppControler,
     AppCompound,
     AppStationPD,
