@@ -26,7 +26,7 @@ export default {
       let height = document.getElementById('route-stablity').offsetHeight; 
 
       // set the dimensions and margins of the graph
-      let margin = { top: 50, right: 30, bottom: 80, left: 50 };
+      let margin = { top: 30, right: 30, bottom: 80, left: 50 };
 
       (width = width - margin.left - margin.right),
         (height = height - margin.top - margin.bottom);
@@ -163,12 +163,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .card {
-  width: 50%;
-  height: 33%;
+  width: 29.5%;
+  height: 25%;
   position: absolute;
   /* float: left; */
-  top: 66%;
-  /* bottom: 0; */
+  /* top: 66%; */
+  right: 0;
   margin: 0.2%;
   margin-left: 0;
 }

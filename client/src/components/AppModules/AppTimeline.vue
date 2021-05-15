@@ -1,16 +1,16 @@
 <template>
-  <Card class="card">
+  <Card class="card-timeline">
     <p slot="title" style="text-align: left">
       <Icon type="ios-bus-outline" />
-      Route Status
+      Timeline View
     </p>
-    <div id="route-status"></div>
+    <div id="timeline"></div>
   </Card>
 </template>
 
 <script>
 export default {
-  name: "AppRouteStatus",
+  name: "AppTimeline",
   data() {
     return {};
   },
@@ -21,19 +21,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.card {
-  width: 29.5%;
-  height: 44%;
+.card-timeline {
+  width: 100%;
+  height: 30%;
   position: absolute;
   /* float: left; */
-  /* bottom: 0; */
-  top:25%;
-  right: 0;
+  bottom: 0;
   margin: 0.2%;
   margin-left: 0;
 }
 
-#route-status {
+#timeline {
   /* position: relative;
   float: left; */
   position: absolute;

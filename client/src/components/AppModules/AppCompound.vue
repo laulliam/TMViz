@@ -4,7 +4,7 @@
     <AppMap></AppMap>
     <AppRouteStablity></AppRouteStablity>
     <AppRouteStatus></AppRouteStatus>
- 
+    <AppTimeline></AppTimeline>
   </Card>
 </template>
 
@@ -13,13 +13,15 @@
 import AppMap from "./AppMap";
 import AppRouteStablity from "./AppRouteStablity";
 import AppRouteStatus from "./AppRouteStatus";
+import AppTimeline from "./AppTimeline";
 
 export default {
   name: "AppCompound",
   components: {
     AppMap,
     AppRouteStablity,
-    AppRouteStatus
+    AppRouteStatus,
+    AppTimeline
   },
 };
 </script>

@@ -2,7 +2,7 @@
   <Card class="card-spd">
     <p slot="title" style="text-align: left">
       <Icon type="ios-ionic-outline" />
-      Station Probability Density
+      Station Probability Density Detail
     </p>
     <div id="stationPD">
       <CellGroup>
@@ -20,7 +20,7 @@ export default {
   name: "AppStationPD",
   data(){
     return {
-      stations:['A','B','C','D','E'],
+      stations:['A','B','C'],
       colors:d3.scaleOrdinal(d3['schemeSet3'])
     }
   },
@@ -177,9 +177,10 @@ export default {
 <style scope>
 .card-spd {
   width: 22%;
-  height: 100%;
+  height: 70%;
   position: relative;
   float: left;
+  /* top:1%; */
   /* left: 10%; */
   /* left: 0; */
   /* margin: 0.1% ; */

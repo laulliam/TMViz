@@ -6,6 +6,7 @@
     <Content class="content">
         <AppControler></AppControler>
         <AppCompound></AppCompound>
+        <AppStationStats></AppStationStats>
         <AppStationPD></AppStationPD>
     </Content>
 
@@ -17,6 +18,7 @@
 <script>
 import AppControler from "./AppModules/AppControler";
 import AppStationPD from "./AppModules/AppStationPD";
+import AppStationStats from "./AppModules/AppStationStats";
 import AppCompound from "./AppModules/AppCompound";
 
 export default {
@@ -28,6 +30,7 @@ export default {
     AppControler,
     AppCompound,
     AppStationPD,
+    AppStationStats
   },
   mounted() {},
   methods: {},
