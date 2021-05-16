@@ -297,7 +297,7 @@ export default {
         .attr("cy", function (d) {
           return y(parseFloat(d.mean));
         })
-        .attr("r", 2)
+        .attr("r", 3)
         .attr("opacity", 0.7);
 
       middots
@@ -306,7 +306,7 @@ export default {
           d3.select(this)
             .transition()
             .duration(200)
-            .attr("r", 3)
+            .attr("r", 4)
             .attr("stroke", "#000");
         })
         .on("mouseout", function () {
@@ -314,7 +314,7 @@ export default {
           d3.select(this)
             .transition()
             .duration(200)
-            .attr("r", 2)
+            .attr("r", 3)
             .attr("stroke", "none");
         })
         .style("fill", "#ff8040")

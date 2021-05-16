@@ -1,7 +1,12 @@
 <template>
   <div id="container">
     <!-- <AppHeader></AppHeader> -->
-    <Header class="header"></Header>
+    <Header class="header">
+      <div class="header-title">
+        <h2>THERE IS A TITLE</h2>
+        <!-- <p class="sub-title">Comprehensive Assessment Visualization Platform</p> -->
+      </div>
+    </Header>
 
     <Content class="content">
         <AppControler></AppControler>
@@ -50,6 +55,11 @@ export default {
     /* position: fixed; */
     /* float: left; */
     height: 5%
+}
+
+.header-title{
+  color:#fff;
+  line-height: 60px;
 }
 
 .content{
