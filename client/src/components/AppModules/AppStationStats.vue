@@ -13,16 +13,23 @@ import * as d3 from "d3";
 export default {
   name: "AppStationStats",
   data() {
-    return {};
+    return {
+      stations: [],
+    };
   },
   components: {},
   mounted() {
-    this.test();
+    this.$axios.get("ppf_data").then((res) => {
+      // console.log(res.data);
+      this.stations = Object.keys(res.data).slice(0, 4);
+      // console.log(this.stations);
+      this.test(res.data, this.stations);
+    });
   },
   methods: {
-    test() {
+    test(data, stations) {
       let width = 400;
-      let height = 250; //this.$el.offsetHeight;
+      let height = 220; //this.$el.offsetHeight;
 
       // set the dimensions and margins of the graph
       let margin = { top: 20, right: 20, bottom: 20, left: 20 };
@@ -56,61 +63,64 @@ export default {
           "translate(" + margin.left * 2 + "," + margin.top + ")"
         );
 
-      let startDateTime = new Date(2021, 1, 1, 0, 0, 0);
-      let endDateTime = new Date(2021, 1, 2, 0, 0, 0);
+      let dateExtent = [
+        // new Date(1900, 1, 1, 0, 0, 0),
+        d3.timeParse("%H:%M:%S")("05:00:00"),
+        // new Date(1900, 1, 2, 0, 0, 0),
+        d3.timeParse("%H:%M:%S")("23:00:00"),
+      ];
 
       // add the x Axis
       var x = d3
         .scaleUtc()
-        .domain([new Date(2021, 1, 1, 0, 0, 0), endDateTime])
+        .domain(dateExtent)
         .range([margin.left, width - margin.right]);
 
       let xAxis = (g, x) =>
         g.attr("transform", `translate(0,${height - margin.bottom})`).call(
           d3.axisBottom(x)
+          .tickFormat(d=>d3.timeFormat("%H:%M")(d))
           // .ticks(5)
           //.tickSizeOuter(0)
         );
 
-      let data = [...Array(3)]
-        .map((d, i) => {
-          let date = new Date(2021, 1, 1, 0, 0, 0);
-          return {
-            name: ["Station A", "Station B", "Station C"][i],
-            values: [...Array(5)].map((s, j) => {
-              return {
-                name: ["Station A", "Station B", "Station C"][i],
-                date: new Date(
-                  date.setHours(date.getHours() + 1 + Math.random() * 5)
-                ),
-              };
-            }),
-          };
-        })
-        .map((d) => {
-          return {
-            name: d.name,
-            values: d.values
-              .map((s, i) => {
-                return i < d.values.length - 1
-                  ? {
-                      name: s.name,
-                      startTime: s.date,
-                      endTime: d.values[i + 1].date,
-                    }
-                  : null;
-              })
-              .filter((d) => d),
-          };
-        });
-
-      console.log(data);
+      // let data = [...Array(3)]
+      //   .map((d, i) => {
+      //     let date = new Date(2021, 1, 1, 0, 0, 0);
+      //     return {
+      //       name: ["Station A", "Station B", "Station C"][i],
+      //       values: [...Array(5)].map((s, j) => {
+      //         return {
+      //           name: ["Station A", "Station B", "Station C"][i],
+      //           date: new Date(
+      //             date.setHours(date.getHours() + 1 + Math.random() * 5)
+      //           ),
+      //         };
+      //       }),
+      //     };
+      //   })
+      //   .map((d) => {
+      //     return {
+      //       name: d.name,
+      //       values: d.values
+      //         .map((s, i) => {
+      //           return i < d.values.length - 1
+      //             ? {
+      //                 name: s.name,
+      //                 startTime: s.date,
+      //                 endTime: d.values[i + 1].date,
+      //               }
+      //             : null;
+      //         })
+      //         .filter((d) => d),
+      //     };
+      //   });
 
       // add the y Axis
       var y = d3
         .scaleBand()
         .rangeRound([height - margin.bottom, margin.top])
-        .domain(["Station A", "Station B", "Station C"])
+        .domain(stations.map((d) => "Station " + d))
         .padding(0.1);
 
       let yAxis = (g, y) =>
@@ -155,7 +165,7 @@ export default {
 
       let rectColor = ["#bf4063", "#ff8040", "#80ff00", "#0d8a20"];
 
-      let legend = ["#bf4063", "#ff8040", "#80ff00", "#0d8a20"];
+      let legend = stations;
 
       let legend_g = svg
         .append("g")
@@ -178,8 +188,8 @@ export default {
         .selectAll("text")
         .data(legend)
         .join("text")
-        .text('TEXT')
-        .attr('font-size', 10)
+        .text("TEXT")
+        .attr("font-size", 10)
         .attr("x", (d, i) => i * 80 + 30)
         .attr("y", 9)
         .classed("trend-type", true)
@@ -188,7 +198,7 @@ export default {
       svg
         .append("defs")
         .append("clipPath")
-        .attr("id", "clip")
+        .attr("id", "clipppf")
         .append("rect")
         .attr("x", 20)
         .attr("width", width - margin.left - margin.right)
@@ -196,21 +206,64 @@ export default {
 
       let g = svg
         .append("g")
-        .selectAll(".rectg")
-        .data(data)
+        .selectAll("g")
+        .data(stations)
         .join("g")
-        .attr("class", "rectg")
-        .attr("clip-path", "url(#clip)")
+        .attr("clip-path", "url(#clipppf)")
         .attr("opacity", 0.7);
 
-      g.selectAll("rect")
-        .data((d) => d.values)
+      g.append("g")
+        .selectAll("g")
+        .data((d) =>
+          Object.keys(data[d]).map((s) => {
+            return data[d][s]
+              .map((t, i) => {
+                return i < data[d][s].length - 1
+                  ? {
+                      name: "Station " + d,
+                      startTime: d3.timeParse("%H:%M:%S")(t),
+                      endTime: d3.timeParse("%H:%M:%S")(data[d][s][i + 1]),
+                    }
+                  : null;
+              })
+              .filter((k) => k);
+          })
+        )
+        .join("g")
+        .selectAll("rect")
+        .data(d =>d )
         .join("rect")
         .attr("x", (d) => x(d.startTime))
         .attr("y", (d) => y(d.name) + y.bandwidth() / 2 - 10)
         .attr("fill", (d, i) => rectColor[i])
         .attr("width", (d) => x(d.endTime) - x(d.startTime))
-        .attr("height", 20);
+        .attr("height", 20)
+        .on('mouseover',function(){
+          d3.select('body').style('cursor','pointer')
+          d3.select(this).transition().duration(200).attr('stroke','#000')
+        })
+        .on('mouseout',function(){
+          d3.select('body').style('cursor','')
+          d3.select(this).transition().duration(200).attr('stroke','none')
+        });
+
+      // let g = svg
+      //   .append("g")
+      //   .selectAll(".rectg")
+      //   .data(data)
+      //   .join("g")
+      //   .attr("class", "rectg")
+      //   .attr("clip-path", "url(#clip)")
+      //   .attr("opacity", 0.7);
+
+      // g.selectAll("rect")
+      //   .data((d) => d.values)
+      //   .join("rect")
+      //   .attr("x", (d) => x(d.startTime))
+      //   .attr("y", (d) => y(d.name) + y.bandwidth() / 2 - 10)
+      //   .attr("fill", (d, i) => rectColor[i])
+      //   .attr("width", (d) => x(d.endTime) - x(d.startTime))
+      //   .attr("height", 20);
 
       svg.call(zoom);
 
